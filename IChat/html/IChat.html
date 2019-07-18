@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Welcome To IChat</title>
+		
+		<link rel="stylesheet" href="../jquery-ui-1.12.1/jquery-ui.css">
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<link rel="stylesheet" href="../css/IChat_css.css" />	
+
+	<!--<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">-->
+	<!--<script type="text/javascript" src="../easyui/jquery.min.js"></script>-->
+	<!--<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>-->
+		<script src="../jquery/jquery-3.3.1.js"></script>
+		<script src="../jquery-ui-1.12.1/jquery-ui.js"></script>
+	    <!--<script src="../js/effects_js.js"></script>-->
+		<script src="../js/Ichat_connection_js.js"></script>
+		<script src="../js/Ichat_control_js.js"></script>
+		<script src="../js/Ichat_ajax_js.js"></script>
+		<script src="../js/onload.js"></script>
+
+		<script>
+		  $( function() {
+		    $( "#accordion" ).accordion({
+		      heightStyle: "fill"
+		    });
+		    
+		    $( "#main-menu" ).tooltip();
+		     $( "#SearchSelect" ).selectmenu({
+		     	width : "85px"
+		     });
+		     $( "#myList" ).tooltip();
+//		     $( "#list1" ).selectable();
+//		     $( "#list2" ).selectable();
+//		     $( "#list3" ).selectable();
+//		     $( "#list4" ).selectable();
+			 $('#db').hide();
+			 $('#db2').hide();
+			
+			$( "#menu1" ).menu();
+			$("#myCF").bind('contextmenu',function(e){
+				e.preventDefault();
+						var x = e.clientX;
+						var y = e.clientY;
+						$('#myCFmenu').css("left",x-3);
+						$('#myCFmenu').css("top",y-3);
+						$('#myCFmenu').css("display","block");
+			});
+			$('#myCFmenu').bind('mouseleave',function(){
+				$('#myCFmenu').css("display","none");
+			});
+		  });
+    	  //$( "#effect" ).hide();
+
+		</script>
+	</head>
+	<body bgcolor="#000000" onload="Onload()">
+	<canvas id="Snow" style="position: absolute; opacity: 0.3; width: 100%; height: 100%;"></canvas>
+	<div id="effect">
+		
+		
+		<div id="main-panel">
+			<div id="main-menu">	<!--菜单栏-->
+				<!--<div id="myHeadprotrait">
+					头像
+				</div>-->
+				<div id="myInformation" >
+					
+				</div>
+				<div id="mySearch">	
+					<button id="AddGroupButton" class="ui-button ui-widget ui-corner-all" title="点击创建群组" style="margin-right: 10px;">群创建</button>
+					<select id="SearchSelect" title="选择查找类型" class="ui-button ui-widget ui-corner-all">
+						<option value="user">用户</option>
+						<option value="group">群</option>
+					</select>
+					<input type="text" id="SearchText" title="请输入查找用户/群组的id号" style=" height: 25px; border-radius:3px;font-family: '微软雅黑';font-size: 1.2em;" />
+					<button id="SearchButton" class="ui-button ui-widget ui-corner-all">查找</button>
+				</div>
+			</div>
+			
+			<div id="myList">	<!--好友列表-->
+				<div id="accordion" class="ui-widget-content" >
+					<h3 id="l1" title="正在聊天">好友聊天</h3>
+						<div><ol id="list1"></ol></div>
+					<h3 id="l2" title="您的好友">好友</h3>
+						<div><ol id="list2"></ol></div>
+					<h3 id="l3" title="正在聊天">群聊天</h3>
+						<div><ol id="list3"></ol></div>
+					<h3 id="l4" title="加入的群">群</h3>
+						<div><ol id="list4"></ol></div>
+				</div>
+			</div>
+			
+			<div id="myChattingFrame">	<!--聊天界面-->
+				<div id="myCF">
+					<div id="myChattingMenu">	<!--菜单栏-->
+						<div id="myChattingTarget" style="width: 150px;float: left;"></div>	<!--聊天对象-->
+					</div>
+					<div id="myChatting">	<!--聊天窗口-->
+						<ul id="myChattingLogsList">
+						</ul>	<!--聊天记录-->
+					</div>
+					
+					<div id="myCFmenu" class="" style="display: none; position: absolute; width: 120px;">	<!--菜单-->
+						<ul id="menu1">
+						  <li><div id="myMoreInformation"><span class="ui-icon ui-icon-zoomin"></span>详细信息</div></li>
+						  <li><div id="myAllChatlogs"><span class="ui-icon ui-icon-zoomin"></span>聊天记录</div></li>
+						  <li><div id="myCloseChat"><span class="ui-icon ui-icon-close"></span>关闭聊天</div></li>
+						</ul>
+					</div>
+					
+				</div>
+				
+				<textarea id="myInsertting" style="float: left;"></textarea>	<!--输入栏-->
+				
+				<form name="myform" id="myform" method="post" enctype="multipart/form-data" style="display: none;">
+					<input type="file" name="UploadIMG" id="UploadIMG"/>
+				</form>	
+				<button id="myImg" class="ui-button ui-widget ui-corner-all" >图片</button>
+				<button id="mySending" class="ui-button ui-widget ui-corner-all">发送</button>
+			</div>
+		</div>
+
+	</div>	<!--end div effect-->
+	
+	
+	
+<!--------------------------------dialog-------------------------------->
+		<div id="AllChatlogsDialog" title="聊天记录" >
+			<div id="AllChatlogsTitle" style="font-family: '微软雅黑';font-size: 1.5em;"></div>
+			<div style="overflow-y: scroll;height: 550px;"><ul id="AllChatlogsUl"></ul></div>
+			<div style="width: 500px;margin: 0 auto;">
+				<button id="ACLPagePageFirst" class="ui-button ui-widget ui-corner-all">首页</button>
+				<button id="ACLPagePagePre" class="ui-button ui-widget ui-corner-all">上一页</button>
+				<select id="ACLPageNumberSelect" class="ui-button ui-widget ui-corner-all"></select>
+				<button id="ACLPagePageTurn" class="ui-button ui-widget ui-corner-all">跳到</button>
+				<button id="ACLPagePageNext" class="ui-button ui-widget ui-corner-all">下一页</button>
+				<button id="ACLPagePageLast" class="ui-button ui-widget ui-corner-all">尾页</button>
+				<!--<button id="ACLPageDownload" class="ui-button ui-widget ui-corner-all">导出所有记录</button>-->
+			</div>
+		</div>
+		
+		<div id="dialog-NoThisNo" title="消息">
+		    <fieldset class="ui-helper-reset">
+		      <label>查询结果不存在</label>
+		    </fieldset>
+		</div>
+		
+		<div id="dialog-confirm" title="详细信息">
+			<div id="dialogtext"></div>
+			<div>
+				<button id="db"  class="ui-button ui-widget ui-corner-all" style="float: left;">添加</button>
+				<button id="db2"  class="ui-button ui-widget ui-corner-all" style="float: right;">关闭</button>
+			</div>
+		</div>
+		
+		<div id="dialog" title="New Group">	
+		  <form>
+		    <fieldset class="ui-helper-reset">
+		      <label for="groupname">群名称：</label>
+		      <input type="text" name="groupname" id="groupname" value="输入群名称" class="ui-widget-content ui-corner-all">
+		    </fieldset>
+		  </form>
+		</div>
+		
+		<div id="dialog2" title="dialog">
+		    <fieldset class="ui-helper-reset">
+		    	<label>创建成功</label>
+		    </fieldset>
+		</div>
+		
+		<div id="dialog3" title="修改个人信息">
+		  <form>
+		    <fieldset class="ui-helper-reset">
+		    <table style="text-align: right; display: none;">
+		    	<tr>
+		      		<td><label for="newaccount"> 账   号 :</label></td>
+		      		<td><input type="text" name="newaccount" id="newaccount" value="" class="ui-widget-content ui-corner-all" disabled="disabled"></td>
+		      	</tr>
+		      	<tr>
+			    	<td><label for="newname">用 户 名 :</label></td>
+			    	<td><input type="text" name="newname" id="newname" value="" class="ui-widget-content ui-corner-all"></td>
+			    </tr>
+			    <tr>
+			    	<td><label for="newpsw"> 密   码  :</label></td>
+			    	<td><input type="password" name="newpsw" id="newpsw" value="" class="ui-widget-content ui-corner-all"></td>
+			    </tr>
+			    <tr>
+			    	<td><label for="newemail">E-mail:</label></td>
+			    	<td><input type="text" name="newemail" id="newemail" value="" class="ui-widget-content ui-corner-all"></td>
+		    	</tr>
+		    </table>
+		    </fieldset>
+		  </form>
+		</div>
+		
+		<div id="dialog4" title="dialog">
+		    <fieldset class="ui-helper-reset">
+		      <label>修改成功</label>
+		    </fieldset>
+		</div>
+<!--------------------------------end  dialog-------------------------------->
+		
+	</body>
+	<script src="../js/xue.js"></script>
+</html>

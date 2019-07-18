@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>IChat-Logining</title>
+		<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+		<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+		<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+		<style type="text/css">
+			#main-panel { opacity: 0.90; width: 350px; margin: 100px auto; }
+			/*#loginbutton, #register_panel {display: none;}*/
+			/*#registerbutton, #login_panel {display: ;}*/
+			td:first-child{ width: 100px; text-align: right;}
+			input{width: 200px;}
+			#registerbutton, #loginbutton { opacity: 0.90; position: absolute; top: 20px; right: 20px;}
+		</style>
+	</head>
+	<body bgcolor="black" onload="toLoginPanle()">
+	<canvas id="Snow" style="position: absolute; opacity: 0.3; width: 100%; height: 100%;"></canvas>
+
+	<a href="javascript:void(0)" id="registerbutton" class="easyui-linkbutton" onclick="toRegisterPanle()">注册</a>
+	<a href="javascript:void(0)" id="loginbutton" class="easyui-linkbutton" onclick="toLoginPanle()">登录</a>
+
+	<div id="main-panel">
+		<div id="login_panel">
+			<div class="easyui-panel" title="登录" style="">
+			<div style="padding:10px 20px 10px 20px; ">
+			<form id="ff" action="login_php.php" method="post">
+			    <table cellpadding="5" style="margin: 0 auto;">
+			    	<tr>
+			    		<td>账号：</td>
+			    		<td><input class="easyui-textbox" type="text" name="account" id="account" required ></input></td>
+			    	</tr>
+			    	<tr>
+			    		<td>密码：</td>
+			    		<td><input class="easyui-textbox" type="password" name="password" required ></input></td>
+			    	</tr>
+
+			   		<tr>
+						<td>&nbsp;</td>
+			   			<td>
+						    <div style="padding:5px">
+						    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm1()">Submit</a>
+						    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm1()">Clear</a>
+						    </div>
+					    	<!--<input type="button" class="easyui-linkbutton" style="width: 70px; height: 30px;" value="Submit" onclick="submitForm1();"/>
+					    	<input type="reset" class="easyui-linkbutton" style="width: 70px; height: 30px;" value="Clear" onclick="clearForm1()"/>-->
+				   	    </td>
+			   	    </tr>
+			   	</table>
+		    </form>
+			</div>
+			</div>
+		</div>
+		
+		<div id="register_panel">
+			<div class="easyui-panel" title="注册" style="">
+			<div style="padding:10px 20px 10px 20px; ">
+			<form id="ff2" action="register_php.php" method="post">
+			    <table cellpadding="5" style="margin: 0 auto;">
+			    	<tr>
+			    		<td>账号：</td>
+			    		<td><input class="easyui-textbox" type="text" name="account2" id="account2" required ></input></td>
+			    	</tr>
+			    	<tr>
+			    		<td>昵称：</td>
+			    		<td><input class="easyui-textbox" type="text" name="name2" id="name2" required ></input></td>
+			    	</tr>
+			    	<tr>
+			    		<td>E-mail：</td>
+			    		<td><input class="easyui-textbox inputElem" type="email" name="email2" id="email2" required ></input></td>
+			    	</tr>
+			    	<tr>
+			    		<td>密码：</td>
+			    		<td><input class="easyui-textbox" type="password" name="password2" id="password2" required ></input></td>
+			    	</tr>
+			    	<tr>
+			    		<td>确认密码：</td>
+			    		<td><input class="easyui-textbox" type="password" name="password22" id="password22" required ></input></td>
+			    	</tr>
+			   		<tr>
+			   			<td>&nbsp;</td>
+			   			<td>
+						    <div style="padding:5px">
+						    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm2()">Submit</a>
+						    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm2()">Clear</a>
+						    </div>
+					    	<!--<input type="button" class="easyui-linkbutton" style="width: 70px; height: 30px;" value="Submit" onclick="submitForm2()"/>
+					    	<input type="reset" class="easyui-linkbutton" style="width: 70px; height: 30px;" value="Clear" onclick="clearForm2()"/>-->
+				   	    </td>
+			   	    </tr>
+			   	</table>
+		    </form>
+			</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function clearForm1(){
+			$('#ff').form('clear');
+		}
+		function clearForm2(){
+			$('#ff2').form('clear');
+		}
+		function toRegisterPanle(){
+			$('#registerbutton').hide();
+			$('#loginbutton').show();
+			$('#login_panel').hide();
+			$('#register_panel').show();
+		}
+		function toLoginPanle(){
+			$('#registerbutton').show();
+			$('#loginbutton').hide();
+			$('#login_panel').show();
+			$('#register_panel').hide();
+		}
+		function submitForm1(){
+			$.ajax({ 
+				url:"../php/login_php.php",
+				type:"POST", //'POST'
+			    data:$("#ff").serialize(),	//发送表单数据
+				success:function(result){
+					switch(result){
+						case "1": 
+       							  if(!window.localStorage){//使用localStorage方式打开窗口
+							      	alert("浏览器不支持localstorage,请尝试新版的IE、Firefox、Chrome浏览器。");
+							      }else{
+							        var storage = window.localStorage;	//localStorage传值,html5特性
+							        storage.clear();
+							        storage.Uid = $('#account').val();
+							        window.location = "IChat.html";
+							      }
+//								  window.open('../main/Ichat.html');//使用子窗口打开
+       							  break;//验证成功
+						case "0":alert("密码错误或账号不存在");break;//验证失败
+						default:alert("error:"+result);
+					}
+				},
+				error:function(){alert('请求发送错误')}        
+			});
+		}
+		function submitForm2(){
+			if( $('#password2').val() != $('#password22').val() ){
+				alert("前后密码不一致，请重新输入密码");
+			} else{
+				$.ajax({
+						url:"register_php.php",
+				        type:"POST", //'POST'
+				        data:$("#ff2").serialize(),	//发送表单数据
+				        success:function(result){alert(result);},
+				        error:function(){alert('请求发送错误')}        
+					});
+			}
+		}
+	</script>
+	</body>
+	<script src="../js/xue.js"></script>
+</html>

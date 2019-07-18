@@ -1,0 +1,28 @@
+			#main-panel { background-color: burlywood; opacity: 0.90; padding: 15px; margin: 0px auto; margin-top: 30px; width: 900px; height: 600px; border-radius:10px;}
+			#main-menu{ background: yellowgreen; height: 70px; line-height: 70px; text-align: center; margin: 10px; border-radius:10px; }
+			/*#myHeadprotrait{ background-color: red; width: 70px; float: left; }*/
+			#myInformation{ background-color: darkcyan; width: 150px; float: left; font-family: "微软雅黑"; font-size: 22px; border-radius:10px;}
+			#mySearch{ float: right; margin-right: 5px;}
+			#myList{ width: 200px; height: 500px; margin-left: 10px; float: left; overflow: hidden; border-radius:10px; }
+			#accordion{ margin-top: -3px;  }
+			/*#list1,#list2,#list3,#list4{ width: 165px; margin-left: -30px; padding: 1px;  text-align: center; font-size: 1em;}*/
+			#list1,#list2,#list3,#list4 { list-style-type: none; margin: 0; padding: 0; }
+  			#list1,#list2,#list3,#list4 li { margin: 3px; padding: 0.4em; font-size: 1.2em; }
+			#list1 .ui-selecting { background: red; }
+  			#list1 .ui-selected { background: green; color: white; }
+			#list2 .ui-selecting { background: red; }
+  			#list2 .ui-selected { background: green; color: white; }
+			#list3 .ui-selecting { background: red; }
+  			#list3 .ui-selected { background: green; color: white; }
+			#list4 .ui-selecting { background: red; }
+  			#list4 .ui-selected { background: green; color: white; }
+  			#list1,#list2,#list3,#list4 li:hover{cursor: pointer;}
+			#myChattingFrame{ background-color: brown; width: 670px; height: 500px; margin-left: 10px; text-indent: 5px; display: inline-block; border-radius:10px; }
+			#myChattingMenu{ background-color: coral; height: 20px; margin: 10px; border-radius:10px; }
+			#myChatting{ background-color: beige; height: 350px; margin: 10px; padding-left: 10px; padding-right: 10px; overflow-y:scroll; border-radius:10px; }
+			#myChattingLogsList li{ list-style-type: none; margin-left: -35px; }
+			#myChattingLogsList img{ max-width:300px; width:expression(this.width>590?"590px":this.width); max-height:300px; height:expression(this.height>590?"590px":this.height); }
+			#myInsertting{ height: 85px; width: 535px; margin-left: 10px; float: left; resize:none; border-radius:10px; }
+			#myImg,#mySending{ background-color: greenyellow; height: 28px; width: 90px; margin-bottom: 3px; margin-left: 10px; display: inline-block; }
+			#mySending{ background-color: greenyellow; height: 50px; width: 90px;  margin-left: 10px; margin-top: 10px; display: inline-block; }
+			button{ cursor: pointer; }

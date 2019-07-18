@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>websocket</title>
+	</head>
+	<body>
+		<h1>echo test</h1>
+		<input id="sendText" type="text" />
+		<button id="sendBtn">发送</button>
+		<div id="recv"></div>
+	</body>
+	<script type="text/javascript">
+		/*
+			本样例实现功能：
+			点击发送按钮获取文本框的内容并将它发送到服务端，
+			服务端将这条消息原样返回并显示在页面。
+			为了便于新手理解，服务端接口使用websocket官方服务
+		*/
+		var websocket=new WebSocket("ws://echo.websocket.org/");//创建一个websocket连接，服务端使用websocket官方服务
+		websocket.onopen=function(){        //websocket服务打开
+			console.log("websocket open");
+			document.getElementById("recv").innerHTML="connected";
+		}
+		websocket.onclose=function(){     //websocket服务关闭
+			console.log("websocket close");
+		}
+		websocket.onmessage=function(e){  //websocket服务接收到消息
+			console.log(e.data);
+			document.getElementById("recv").innerHTML=e.data;//将消息显示在消息列表
+		}
+		document.getElementById("sendBtn").onclick=function(){
+			var txt=document.getElementById("sendText").value;
+			websocket.send(txt);//将文本输入框中的内容发送到服务端
+		}
+	</script>
+
+</html>
